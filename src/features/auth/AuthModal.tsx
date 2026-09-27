@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { authApi } from '@/lib/api/auth';
 import { useUIStore } from '@/stores/uiStore';
 import { Mail, Lock, User as UserIcon, AlertCircle } from 'lucide-react';
+import { GoogleSignInButton } from '@/components/auth/GoogleSignInButton';
 
 export const AuthModal: React.FC = () => {
   const { isAuthModalOpen, closeAuthModal, authModalMode, openAuthModal } = useUIStore();
@@ -20,60 +21,6 @@ export const AuthModal: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const isLogin = authModalMode === 'login';
-  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-
-  React.useEffect(() => {
-    if (!googleClientId || !isAuthModalOpen) return;
-
-    const handleGoogleCallback = async (response: any) => {
-      if (response.credential) {
-        setIsLoading(true);
-        setError(null);
-        try {
-          const authRes = await authApi.loginWithGoogle({ credential: response.credential });
-          if (authRes.token && authRes.user) {
-            setAuth(authRes.token, authRes.user);
-            handleClose();
-          } else {
-            setError(authRes.message || 'Đăng nhập Google thất bại');
-          }
-        } catch (err: any) {
-          setError(err?.message || 'Lỗi khi xác thực Google');
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    const renderBtn = () => {
-      if ((window as any).google?.accounts?.id) {
-        (window as any).google.accounts.id.initialize({
-          client_id: googleClientId,
-          callback: handleGoogleCallback,
-        });
-        const btnDiv = document.getElementById('googleModalSignInBtn');
-        if (btnDiv) {
-          btnDiv.innerHTML = '';
-          (window as any).google.accounts.id.renderButton(btnDiv, {
-            theme: 'filled_black',
-            size: 'large',
-            width: 280,
-            text: isLogin ? 'signin_with' : 'signup_with',
-          });
-        }
-      }
-    };
-
-    if (!(window as any).google?.accounts?.id) {
-      const script = document.createElement('script');
-      script.src = 'https://accounts.google.com/gsi/client';
-      script.async = true;
-      script.onload = renderBtn;
-      document.body.appendChild(script);
-    } else {
-      setTimeout(renderBtn, 100);
-    }
-  }, [googleClientId, isAuthModalOpen, isLogin]);
 
   const resetForm = () => {
     setIdentifier('');
@@ -216,19 +163,21 @@ export const AuthModal: React.FC = () => {
           {isLogin ? 'Đăng nhập' : 'Tạo tài khoản'}
         </Button>
 
-        {googleClientId && (
-          <div className="space-y-3 pt-2">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-surface-border" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-surface px-2 text-gray-400">Hoặc tiếp tục với</span>
-              </div>
-            </div>
-            <div id="googleModalSignInBtn" className="flex justify-center" />
+        <div className="space-y-3 pt-1">
+          <div className="relative flex items-center justify-center">
+            <div className="border-t border-surface-border w-full" />
+            <span className="bg-surface px-3 text-[11px] text-gray-500 uppercase tracking-wider shrink-0">
+              Hoặc
+            </span>
+            <div className="border-t border-surface-border w-full" />
           </div>
-        )}
+
+          <GoogleSignInButton
+            text={isLogin ? 'Đăng nhập bằng Google' : 'Đăng ký bằng Google'}
+            onSuccess={handleClose}
+            onError={(errMsg) => setError(errMsg)}
+          />
+        </div>
 
         <div className="text-center text-xs text-gray-400 pt-2">
           {isLogin ? (

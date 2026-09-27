@@ -7,6 +7,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { authApi } from '@/lib/api/auth';
 import { Mail, Lock, AlertCircle } from 'lucide-react';
 
+import { GoogleSignInButton } from '@/components/auth/GoogleSignInButton';
+
 export const LoginPage: React.FC = () => {
   const { setAuth, isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -24,58 +26,6 @@ export const LoginPage: React.FC = () => {
       navigate(from, { replace: true });
     }
   }, [isAuthenticated, navigate, from]);
-
-  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-
-  useEffect(() => {
-    if (!googleClientId) return;
-
-    const handleGoogleCallback = async (response: any) => {
-      if (response.credential) {
-        setIsLoading(true);
-        setError(null);
-        try {
-          const authRes = await authApi.loginWithGoogle({ credential: response.credential });
-          if (authRes.token && authRes.user) {
-            setAuth(authRes.token, authRes.user);
-            navigate(from, { replace: true });
-          } else {
-            setError(authRes.message || 'Đăng nhập Google thất bại');
-          }
-        } catch (err: any) {
-          setError(err?.message || 'Lỗi khi xác thực Google');
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    const script = document.createElement('script');
-    script.src = 'https://accounts.google.com/gsi/client';
-    script.async = true;
-    script.onload = () => {
-      if ((window as any).google?.accounts?.id) {
-        (window as any).google.accounts.id.initialize({
-          client_id: googleClientId,
-          callback: handleGoogleCallback,
-        });
-        const buttonDiv = document.getElementById('googleSignInBtn');
-        if (buttonDiv) {
-          (window as any).google.accounts.id.renderButton(buttonDiv, {
-            theme: 'filled_black',
-            size: 'large',
-            width: 320,
-            text: 'signin_with',
-          });
-        }
-      }
-    };
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, [googleClientId, setAuth, navigate, from]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -158,19 +108,21 @@ export const LoginPage: React.FC = () => {
           </Button>
         </form>
 
-        {googleClientId && (
-          <div className="space-y-4 pt-2">
-            <div className="relative flex items-center justify-center">
-              <div className="border-t border-surface-border w-full" />
-              <span className="bg-surface px-3 text-[11px] text-gray-500 uppercase tracking-wider shrink-0">
-                Hoặc
-              </span>
-              <div className="border-t border-surface-border w-full" />
-            </div>
-
-            <div id="googleSignInBtn" className="flex justify-center" />
+        <div className="space-y-4 pt-2">
+          <div className="relative flex items-center justify-center">
+            <div className="border-t border-surface-border w-full" />
+            <span className="bg-surface px-3 text-[11px] text-gray-500 uppercase tracking-wider shrink-0">
+              Hoặc
+            </span>
+            <div className="border-t border-surface-border w-full" />
           </div>
-        )}
+
+          <GoogleSignInButton
+            text="Đăng nhập bằng Google"
+            onSuccess={() => navigate(from, { replace: true })}
+            onError={(errMsg) => setError(errMsg)}
+          />
+        </div>
 
         <div className="text-center text-xs text-gray-400 pt-2 border-t border-surface-border">
           Chưa có tài khoản YoxTube?{' '}

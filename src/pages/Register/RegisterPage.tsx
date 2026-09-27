@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { useAuth } from '@/hooks/useAuth';
 import { authApi } from '@/lib/api/auth';
 import { Mail, Lock, User as UserIcon, AlertCircle } from 'lucide-react';
+import { GoogleSignInButton } from '@/components/auth/GoogleSignInButton';
 
 export const RegisterPage: React.FC = () => {
   const { setAuth, isAuthenticated } = useAuth();
@@ -129,6 +130,22 @@ export const RegisterPage: React.FC = () => {
             Đăng ký tài khoản
           </Button>
         </form>
+
+        <div className="space-y-4 pt-2">
+          <div className="relative flex items-center justify-center">
+            <div className="border-t border-surface-border w-full" />
+            <span className="bg-surface px-3 text-[11px] text-gray-500 uppercase tracking-wider shrink-0">
+              Hoặc
+            </span>
+            <div className="border-t border-surface-border w-full" />
+          </div>
+
+          <GoogleSignInButton
+            text="Đăng ký bằng Google"
+            onSuccess={() => navigate('/')}
+            onError={(errMsg) => setError(errMsg)}
+          />
+        </div>
 
         <div className="text-center text-xs text-gray-400 pt-2 border-t border-surface-border">
           Đã có tài khoản?{' '}
