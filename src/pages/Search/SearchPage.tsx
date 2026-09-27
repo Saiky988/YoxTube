@@ -5,7 +5,8 @@ import { moviesApi } from '@/lib/api/movies';
 import { useDebounce } from '@/hooks/useDebounce';
 import { MovieGrid } from '@/components/movie/MovieGrid';
 import { Button } from '@/components/ui/Button';
-import { Search as SearchIcon, X, ChevronLeft, ChevronRight, Film } from 'lucide-react';
+import { Search as SearchIcon, X, ChevronLeft, ChevronRight, Film, Loader2 } from 'lucide-react';
+import { cn } from '@/lib/utils/cn';
 
 export const SearchPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -67,6 +68,9 @@ export const SearchPage: React.FC = () => {
             autoFocus
             className="w-full h-12 pl-12 pr-10 bg-surface border border-surface-border rounded-xl text-sm text-gray-100 placeholder:text-gray-500 focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-colors shadow-lg"
           />
+          {isLoading && (
+            <Loader2 className={cn('absolute w-4 h-4 text-brand-accent animate-spin', inputVal ? 'right-10' : 'right-4')} />
+          )}
           {inputVal && (
             <button
               onClick={() => setInputVal('')}
