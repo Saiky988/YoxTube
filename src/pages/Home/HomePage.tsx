@@ -5,9 +5,11 @@ import { useAuth } from '@/hooks/useAuth';
 import { HeroBanner } from '@/components/movie/HeroBanner';
 import { MovieSection } from '@/components/movie/MovieSection';
 import { ContinueWatchingRow } from '@/components/movie/ContinueWatchingRow';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 export const HomePage: React.FC = () => {
   const { isAuthenticated } = useAuth();
+  useDocumentTitle('Trang chủ');
 
   const { data: trendingRes, isLoading: isTrendingLoading } = useQuery({
     queryKey: ['movies', 'trending'],

@@ -7,8 +7,10 @@ import { MovieCard } from '@/components/movie/MovieCard';
 import { Button } from '@/components/ui/Button';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Bookmark, ChevronLeft, ChevronRight, Compass, Trash2 } from 'lucide-react';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 export const FavoritesPage: React.FC = () => {
+  useDocumentTitle('Phim yêu thích');
   const { isAuthenticated } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const queryClient = useQueryClient();

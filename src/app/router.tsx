@@ -15,6 +15,7 @@ import { SettingsPage } from '@/pages/Settings/SettingsPage';
 import { useAuth } from '@/hooks/useAuth';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated, isLoading, isInitialized } = useAuth();
@@ -37,6 +38,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 };
 
 const NotFoundPage: React.FC = () => {
+  useDocumentTitle('Không tìm thấy trang');
   return (
     <div className="min-h-[60vh] flex flex-col items-center justify-center px-4 text-center space-y-4">
       <div className="w-16 h-16 rounded-full bg-surface-subtle flex items-center justify-center text-brand-accent border border-surface-border">

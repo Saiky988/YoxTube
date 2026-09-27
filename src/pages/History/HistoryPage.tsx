@@ -15,8 +15,10 @@ import {
   Compass,
   CheckCircle2
 } from 'lucide-react';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 export const HistoryPage: React.FC = () => {
+  useDocumentTitle('Lịch sử xem');
   const { isAuthenticated } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const queryClient = useQueryClient();

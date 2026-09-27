@@ -14,8 +14,10 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 export const SettingsPage: React.FC = () => {
+  useDocumentTitle('Cài đặt');
   const { settings, setSettings } = useAuth();
 
   const [theme, setTheme] = useState<ThemeOption>(settings?.theme || 'system');
