@@ -37,6 +37,18 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     source?.videoUrl?.endsWith('.webm') ||
     source?.sourceType === 'mp4';
 
+  const embedUrl = React.useMemo(() => {
+    if (!source?.videoUrl) return '';
+    if (isDirectVideo) return source.videoUrl;
+
+    // Nếu đã là link proxy của YoxTube CDN hoặc API thì giữ nguyên
+    if (source.videoUrl.includes('/player/embed')) return source.videoUrl;
+
+    // Proxy qua YoxTube CDN Player endpoint để lọc sạch hoàn toàn watermark & branding bên thứ 3
+    const cdnBase = (import.meta.env.VITE_CDN_URL || 'https://cdn.yoxtube.xyz').replace(/\/+$/, '');
+    return `${cdnBase}/player/embed?url=${encodeURIComponent(source.videoUrl)}`;
+  }, [source?.videoUrl, isDirectVideo]);
+
   useEffect(() => {
     if (!source?.videoUrl || isDirectVideo) return;
 
@@ -131,7 +143,8 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
         />
       ) : (
         <iframe
-          src={source.videoUrl}
+          key={embedUrl}
+          src={embedUrl}
           title={title}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
           allowFullScreen
