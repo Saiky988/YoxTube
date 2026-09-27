@@ -67,7 +67,7 @@ export const Header: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="hidden sm:block w-48 md:w-64 lg:w-72">
+              <div className="hidden sm:block w-56 md:w-72 lg:w-80">
                 <SearchBar />
               </div>
 
