@@ -24,6 +24,11 @@ export const HomePage: React.FC = () => {
     queryFn: () => moviesApi.getMovies({ type: 'series', limit: 12 }),
   });
 
+  const { data: singleRes, isLoading: isSingleLoading } = useQuery({
+    queryKey: ['movies', 'single'],
+    queryFn: () => moviesApi.getMovies({ type: 'single', limit: 12 }),
+  });
+
   const { data: actionRes, isLoading: isActionLoading } = useQuery({
     queryKey: ['movies', 'action'],
     queryFn: () => moviesApi.getMovies({ category: 'hanh-dong', limit: 12 }),
@@ -43,6 +48,7 @@ export const HomePage: React.FC = () => {
   const trendingMovies = trendingRes?.data || [];
   const latestMovies = latestRes?.data || [];
   const seriesMovies = seriesRes?.data || [];
+  const singleMovies = singleRes?.data || [];
   const actionMovies = actionRes?.data || [];
   const animeMovies = animeRes?.data || [];
   const historyItems = historyRes?.data || [];
@@ -65,20 +71,30 @@ export const HomePage: React.FC = () => {
         isLoading={isTrendingLoading}
       />
 
+      {singleMovies.length > 0 && (
+        <MovieSection
+          title="Phim Lẻ Đặc Sắc"
+          subtitle="Các tác phẩm điện ảnh chiếu rạp đỉnh cao và bom tấn quốc tế"
+          viewAllLink="/browse?type=single"
+          movies={singleMovies}
+          isLoading={isSingleLoading}
+        />
+      )}
+
+      <MovieSection
+        title="Phim Bộ Chọn Lọc"
+        subtitle="Hấp dẫn từng tập với cốt truyện lôi cuốn"
+        viewAllLink="/browse?type=series"
+        movies={seriesMovies}
+        isLoading={isSeriesLoading}
+      />
+
       <MovieSection
         title="Phim Mới Cập Nhật"
         subtitle="Cập nhật bản đẹp, phụ đề và thuyết minh mới nhất"
         viewAllLink="/browse?sort_field=created_at&sort_type=desc"
         movies={latestMovies}
         isLoading={isLatestLoading}
-      />
-
-      <MovieSection
-        title="Phim Bộ Đặc Sắc"
-        subtitle="Hấp dẫn từng tập với cốt truyện lôi cuốn"
-        viewAllLink="/browse?type=series"
-        movies={seriesMovies}
-        isLoading={isSeriesLoading}
       />
 
       {actionMovies.length > 0 && (

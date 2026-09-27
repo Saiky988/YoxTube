@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { moviesApi } from '@/lib/api/movies';
 import { useAuth } from '@/hooks/useAuth';
 import { useUIStore } from '@/stores/uiStore';
+import { getValidImageUrl } from '@/lib/utils/formatters';
 
 interface HeroBannerProps {
   movie?: MovieItem;
@@ -55,7 +56,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ movie, isLoading = false
     );
   }
 
-  const backdropImage = movie.posterUrl || movie.thumbUrl || '';
+  const backdropImage = getValidImageUrl(movie.thumbUrl) || getValidImageUrl(movie.posterUrl) || '';
 
   return (
     <div className="relative w-full min-h-[380px] sm:min-h-[440px] md:min-h-[500px] lg:min-h-[540px] rounded-2xl overflow-hidden border border-surface-border/60 bg-surface flex items-end">

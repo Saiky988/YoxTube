@@ -4,6 +4,7 @@ import { MovieItem } from '@/types/movie';
 import { Badge } from '@/components/ui/Badge';
 import { Play, Film } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
+import { getValidImageUrl } from '@/lib/utils/formatters';
 
 interface MovieCardProps {
   movie: MovieItem;
@@ -21,7 +22,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  const imageUrl = movie.posterUrl || movie.thumbUrl || '';
+  const imageUrl = getValidImageUrl(movie.posterUrl) || getValidImageUrl(movie.thumbUrl) || '';
 
   const getTypeLabel = (type?: string) => {
     switch (type) {

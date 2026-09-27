@@ -40,3 +40,13 @@ export function formatDate(dateString?: string): string {
 export function getCleanServerName(name: string): string {
   return name.replace(/\r?\n|\r/g, ' ').replace(/\s+/g, ' ').trim();
 }
+
+export function getValidImageUrl(url?: unknown): string {
+  if (!url || typeof url !== 'string') return '';
+  const trimmed = url.trim();
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    return trimmed;
+  }
+  return '';
+}
+
