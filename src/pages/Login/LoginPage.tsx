@@ -8,10 +8,8 @@ import { authApi } from '@/lib/api/auth';
 import { Mail, Lock, AlertCircle } from 'lucide-react';
 
 import { GoogleSignInButton } from '@/components/auth/GoogleSignInButton';
-import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 export const LoginPage: React.FC = () => {
-  useDocumentTitle('Đăng nhập');
   const { setAuth, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();

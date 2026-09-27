@@ -12,7 +12,6 @@ import {
   Film
 } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
-import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 export const BrowsePage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -26,8 +25,6 @@ export const BrowsePage: React.FC = () => {
   const year = searchParams.get('year') || '';
   const sortField = searchParams.get('sort_field') || 'created_at';
   const sortType = (searchParams.get('sort_type') as 'asc' | 'desc') || 'desc';
-
-  useDocumentTitle('Khám phá');
 
   const { data: genresRes } = useQuery({
     queryKey: ['genres'],

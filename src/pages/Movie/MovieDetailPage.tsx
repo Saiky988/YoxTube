@@ -24,7 +24,6 @@ import {
   Check
 } from 'lucide-react';
 import { formatViewCount } from '@/lib/utils/formatters';
-import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 export const MovieDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -44,7 +43,6 @@ export const MovieDetailPage: React.FC = () => {
   });
 
   const movie = movieRes?.data;
-  useDocumentTitle(movie?.title ? `${movie.title} — Xem phim` : undefined);
 
   const activeServer =
     movie?.servers?.find((s) => s.id === selectedServerId) || movie?.servers?.[0];

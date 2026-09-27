@@ -6,7 +6,6 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { MovieGrid } from '@/components/movie/MovieGrid';
 import { Button } from '@/components/ui/Button';
 import { Search as SearchIcon, X, ChevronLeft, ChevronRight, Loader2, Sparkles } from 'lucide-react';
-import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 export const SearchPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -15,8 +14,6 @@ export const SearchPage: React.FC = () => {
 
   const [inputVal, setInputVal] = useState(urlQuery);
   const debouncedQuery = useDebounce(inputVal, 300);
-
-  useDocumentTitle(urlQuery ? `Tìm kiếm "${urlQuery}"` : 'Tìm kiếm');
 
   // Cập nhật URL khi người dùng gõ tìm kiếm trên trang
   useEffect(() => {

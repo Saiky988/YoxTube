@@ -7,10 +7,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { authApi } from '@/lib/api/auth';
 import { Mail, Lock, User as UserIcon, AlertCircle } from 'lucide-react';
 import { GoogleSignInButton } from '@/components/auth/GoogleSignInButton';
-import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 export const RegisterPage: React.FC = () => {
-  useDocumentTitle('Đăng ký');
   const { setAuth, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 

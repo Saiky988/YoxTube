@@ -23,7 +23,6 @@ import {
   Layers
 } from 'lucide-react';
 import { Episode, MovieServer, VideoSource } from '@/types/movie';
-import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 export const WatchPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -63,14 +62,6 @@ export const WatchPage: React.FC = () => {
     }
     return activeServer.episodes[0];
   }, [activeServer?.episodes, epParam]);
-
-  useDocumentTitle(
-    movie?.title
-      ? activeEpisode?.name
-        ? `${movie.title} — ${activeEpisode.name}`
-        : `Xem ${movie.title}`
-      : undefined
-  );
 
   const [selectedSourceId, setSelectedSourceId] = useState<number | undefined>();
 

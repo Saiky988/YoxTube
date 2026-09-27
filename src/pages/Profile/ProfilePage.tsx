@@ -15,10 +15,8 @@ import {
   Calendar,
   Mail
 } from 'lucide-react';
-import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 export const ProfilePage: React.FC = () => {
-  useDocumentTitle('Hồ sơ cá nhân');
   const { user, setUser } = useAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
