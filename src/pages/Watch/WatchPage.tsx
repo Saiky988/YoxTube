@@ -82,6 +82,7 @@ export const WatchPage: React.FC = () => {
       : null;
 
   const handleSelectServer = (server: MovieServer) => {
+    setSelectedSourceId(undefined);
     const next = new URLSearchParams(searchParams);
     next.set('server', String(server.id));
     if (server.episodes?.length) {
@@ -91,6 +92,7 @@ export const WatchPage: React.FC = () => {
   };
 
   const handleSelectEpisode = (episode: Episode) => {
+    setSelectedSourceId(undefined);
     const next = new URLSearchParams(searchParams);
     next.set('ep', episode.slug);
     if (activeServer) {
